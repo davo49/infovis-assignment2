@@ -23,6 +23,10 @@ float TRANS_TIME = 100f;
 float min, max;
 boolean resizeFlag = false;
 
+String xlabel, ylabel;
+float xlx, xly;
+float ylx, yly;
+
 PFont f;
 Table tab;
 ArrayList<Drawable> components = new ArrayList<Drawable>();
@@ -38,6 +42,10 @@ void setup() {
   size(800, 600);
   oldWidth = width;
   oldHeight = height;
+  xlx = width/2;
+  xly = height - 10;
+  ylx = 20;
+  yly = 50;
   f = createFont("Arial_Bold",12,true);
   textFont(f,fontSize);
   readInData();
@@ -99,6 +107,10 @@ void draw() {
   for(int i = 0; i < NUM_Y_LABELS; i++) {
     text(lerp(min, max, i/NUM_Y_LABELS), LABEL_X, DATA_Y_END - i*((DATA_Y_END - 50)/NUM_Y_LABELS));
   }
+  fill(0, 0, 0);
+  text(xlabel, xlx, xly);
+  text(ylabel, ylx, yly);
+  fill(250, 250, 250);
   resizeFlag = false;
   if(width != oldWidth || height != oldHeight) {
     resizeFlag = true;
@@ -113,6 +125,10 @@ void draw() {
     DATA_X_END *= width/oldWidth;
     DATA_Y_START *= height/oldHeight;
     DATA_Y_END *= height/oldHeight;
+    xlx *= width/oldWidth;
+    xly *= height/oldHeight;
+    ylx *= width/oldWidth;
+    yly *= height/oldHeight;
     
   }
   oldWidth = width;
@@ -153,6 +169,8 @@ void readInData() {
   TableRow labels = tab2.getRow(0);
   String col1 = labels.getString(0);
   String col2 = labels.getString(1);
+  xlabel = col1;
+  ylabel = col2;
   print(col1 + " " + col2);
   int i = 0;
   float curX = 100;
